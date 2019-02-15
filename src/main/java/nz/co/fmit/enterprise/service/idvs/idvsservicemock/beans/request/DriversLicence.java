@@ -37,13 +37,9 @@ public class DriversLicence {
     public void validate() {
         List<String> errorFields = new ArrayList<>();
         if (!StringUtils.isBlank(number)) {
-            if (number.length() < 6 && number.length() > 7) {
-                errorFields.add("driversLicenceNumber");
-
-            } else if (!(number.substring(0, 2).matches("[A-Z]*") && number.substring(2).matches("[0-9]*"))) {
+            if (!(number.matches("[a-zA-Z0-9]{8}"))) {
                 errorFields.add("driversLicenceNumber");
             }
-
         }
 
         if (!StringUtils.isBlank(version)) {
@@ -56,7 +52,6 @@ public class DriversLicence {
                     errorFields.add("driversLicenceVersion");
                 }
             }
-
         }
 
         if (errorFields.size() > 0) {

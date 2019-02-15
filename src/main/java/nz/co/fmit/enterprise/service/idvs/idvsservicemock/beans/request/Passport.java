@@ -36,9 +36,7 @@ public class Passport {
     public void validate() {
         String errorFields = "";
         if (!StringUtils.isBlank(number)) {
-            if (number.length() < 8 && number.length() > 9) {
-                errorFields = "passportNumber";
-            } else if (!(Character.isLetter(number.charAt(0)) || Character.isLetter(number.charAt(0)))) {
+            if (!(number.matches("[a-zA-Z0-9]{8}"))) {
                 errorFields = "passportNumber";
             }
         }

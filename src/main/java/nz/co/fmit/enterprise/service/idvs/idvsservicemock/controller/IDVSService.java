@@ -13,12 +13,16 @@ import nz.co.fmit.enterprise.service.idvs.idvsservicemock.beans.response.Verific
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 @RestController
@@ -68,12 +72,17 @@ public class IDVSService {
             success = false;
         }
 
-        if (isPassportPresent && (StringUtils.isBlank(passport.getNumber()) || passport.getExpiry() == null)) {
+        if (isPassportPresent && (StringUtils.isBlank(passport.getNumber()) ||
+                passport.getExpiry() == null ||  Days.daysBetween(new DateTime(passport.getExpiry()), new DateTime()).getDays() >= 0)) {
             success = false;
         }
 
         Name name = data.getDetails().getName();
         if (StringUtils.isBlank(name.getGiven())) {
+            success = false;
+        }
+
+        if (Days.daysBetween(new DateTime(data.getDetails().getDateofbirth()), new DateTime()).getDays() <= 0) {
             success = false;
         }
 
